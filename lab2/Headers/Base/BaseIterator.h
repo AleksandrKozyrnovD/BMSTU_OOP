@@ -23,13 +23,13 @@ protected:
 
 	void CheckValidity(const char *File, const char *Function, int line) const;
 
-
-public:
 	BaseIterator() noexcept;
-
 	BaseIterator(const BaseIterator& other) noexcept;
+public:
 
-	virtual ~BaseIterator() noexcept = 0;
+	bool operator==(const BaseIterator<T>& iterator) const;
+
+	~BaseIterator() noexcept;
 };
 
 #include "BaseIterator.hpp"

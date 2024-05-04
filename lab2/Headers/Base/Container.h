@@ -16,7 +16,7 @@ public:
 
 	explicit Container(int size) noexcept;
 
-	virtual ~Container() noexcept = 0;
+	virtual ~Container() noexcept = default;
 
 	bool IsEmpty() const noexcept;
 

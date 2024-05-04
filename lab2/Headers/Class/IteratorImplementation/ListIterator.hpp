@@ -18,7 +18,7 @@ ListIterator<T>::ListIterator(int size) noexcept
 }
 
 template<RestrictedType T>
-ListIterator<T>::ListIterator(const BaseIterator<T>& iterator) noexcept
+ListIterator<T>::ListIterator(const ConstListIterator<T>& iterator) noexcept
 : BaseIterator<T>(iterator)
 {}
 
@@ -105,17 +105,17 @@ ListIterator<T>::operator bool() const noexcept
 	return (bool) (this->index < this->size && !this->current.expired());
 }
 
-template <RestrictedType T>
-bool ListIterator<T>::operator==(const ListIterator& iterator) const
-{
-	return this->index == iterator.index;
-}
-
-template <RestrictedType T>
-bool ListIterator<T>::operator!=(const ListIterator& iterator) const
-{
-	return !(*this == iterator);
-}
+//template <RestrictedType T>
+//bool ListIterator<T>::operator==(const ListIterator& iterator) const
+//{
+//	return this->index == iterator.index;
+//}
+//
+//template <RestrictedType T>
+//bool ListIterator<T>::operator!=(const ListIterator& iterator) const
+//{
+//	return !(*this == iterator);
+//}
 
 #pragma endregion
 

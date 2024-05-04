@@ -12,6 +12,8 @@
 
 #pragma region old
 
+template<RestrictedType T>
+class ConstListIterator;
 
 
 template<RestrictedType T>
@@ -34,7 +36,8 @@ public:
 
 	ListIterator(const ListIterator<value_type>& iterator) noexcept;
 	ListIterator(const List<value_type>& list) noexcept;
-	ListIterator(const BaseIterator<value_type>& other) noexcept;
+
+	ListIterator(const ConstListIterator<value_type>& other) noexcept;
 
 	ListIterator<T>& operator=(const ListIterator<value_type>& iterator) noexcept;
 	ListIterator<T>& operator=(const List<value_type>& list) noexcept;
@@ -47,8 +50,8 @@ public:
 
 
 	operator bool() const noexcept;
-	bool operator==(const ListIterator<T>& iterator) const;
-	bool operator!=(const ListIterator<T>& iterator) const;
+//	bool operator==(const ListIterator<T>& iterator) const;
+//	bool operator!=(const ListIterator<T>& iterator) const;
 };
 
 #include "IteratorImplementation/ListIterator.hpp"

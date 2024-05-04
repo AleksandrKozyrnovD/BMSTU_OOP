@@ -31,6 +31,8 @@ private:
 	using iterator = ListIterator<T>;
 	using const_iterator = ConstListIterator<T>;
 	using iterator_category = std::forward_iterator_tag;
+	using Iterator = ListIterator<T>;
+	using ConstIterator = ConstListIterator<T>;
 
 	#pragma region struct_Node
 	struct Node
@@ -78,8 +80,6 @@ protected:
 	void SliceCheck(const char *file, const char *function, int line, int start, int end) const;
 	#pragma endregion
 public:
-	using Iterator = ListIterator<T>;
-	using ConstIterator = ConstListIterator<T>;
 
 	#pragma region Constructors
 
@@ -123,8 +123,8 @@ public:
 	T& PopFront();
 	T& PopBack();
 
-	void Remove(int index);
-	void Remove(int from, int to);
+//	void Remove(int index);
+//	void Remove(int from, int to);
 
 	void Remove(ListIterator<T>& begin, ListIterator<T>& end);
 
@@ -163,10 +163,10 @@ public:
 	List<T> Merge(I begin, I end) const;
 
 	template<ConvertableContainer<T> C>
-	List<T>& Merge(C& container);
+	List<T>& Merge(const C& container);
 
 	template<ConvertableContainer<T> C>
-	List<T> Merge(C& container) const;
+	List<T> Merge(const C& container) const;
 
 	#pragma endregion
 
@@ -185,7 +185,7 @@ public:
 	void Insert(I begin, I end, int index);
 
 	template<ConvertableContainer<T> C>
-	void Insert(C& container, int index);
+	void Insert(const C& container, int index);
 
 	#pragma endregion
 
@@ -203,7 +203,7 @@ public:
 	template<Convertable_To<T> U>
 	List<T>& operator=(const List<U>& other);
 	template<ConvertableContainer<T> C>
-	List<T>& operator=(C& container);
+	List<T>& operator=(const C& container);
 
 	List<T>& operator=(List<T>&& other) noexcept;
 	template<Convertable_To<T> U>
@@ -217,7 +217,7 @@ public:
 	template<Convertable_To<T> U>
 	List<T>& operator+=(const List<U>& other);
 	template<ConvertableContainer<T> C>
-	List<T>& operator+=(C container);
+	List<T>& operator+=(const C& container);
 
 	template<RestrictedType Type>
 	friend ostream& operator<<(ostream& os, List<Type>& list);

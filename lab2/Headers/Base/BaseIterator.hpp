@@ -33,6 +33,11 @@ void BaseIterator<T>::CheckValidity(const char *File, const char *Function, int 
 	}
 }
 
+template <RestrictedType T>
+bool BaseIterator<T>::operator==(const BaseIterator& iterator) const
+{
+	return this->index == iterator.index;
+}
 
 
 #endif //LAB2_BASEITERATOR_HPP

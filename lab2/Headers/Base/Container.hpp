@@ -15,8 +15,8 @@ Container::Container(int size) noexcept
 		: size(size)
 {}
 
-Container::~Container() noexcept
-{}
+//Container::~Container() noexcept
+//{}
 
 bool Container::IsEmpty() const noexcept
 {

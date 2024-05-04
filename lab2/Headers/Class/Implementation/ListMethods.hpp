@@ -149,75 +149,75 @@ void List<T>::Set(int index, U& data)
 {
 	this->Get(index) = data;
 }
-
-template<RestrictedType T>
-void List<T>::Remove(int index)
-{
-	EmptyListCheck(__FILE__, __FUNCTION__, __LINE__);
-	IndexOutOfRangeCheck(__FILE__, __FUNCTION__, __LINE__, index);
-
-
-	if (index == this->size - 1)
-	{
-		this->PopBack();
-	}
-	else if (index == 0)
-	{
-		this->PopFront();
-	}
-	else
-	{
-		pointer current = this->head;
-		pointer prev = nullptr;
-		for (int i = 0; i < index; i++)
-		{
-			prev = current;
-			current = current->GetNext();
-		}
-		prev->SetNext(current->GetNext());
-		this->size--;
-	}
-}
-
-template<RestrictedType T>
-void List<T>::Remove(int from, int to)
-{
-	SliceCheck(__FILE__, __FUNCTION__, __LINE__, from, to);
-
-	if (from == 0)
-	{
-		for (int i = from; i < to; i++)
-		{
-			this->PopFront();
-		}
-	}
-	else if (to == this->size)
-	{
-		for (int i = from; i < to; i++)
-		{
-			this->PopBack();
-		}
-	}
-	else
-	{
-		pointer firstBorder = this->head;
-
-		for (int i = 0; i < from - 1; i++)
-		{
-			firstBorder = firstBorder->GetNext();
-		}
-
-		pointer secondBorder = firstBorder->GetNext();
-
-		for (int i = from; i < to; i++)
-		{
-			secondBorder = secondBorder->GetNext();
-		}
-
-		firstBorder->SetNext(secondBorder);
-		this->size -= (from - to);
-	}
-}
+//
+//template<RestrictedType T>
+//void List<T>::Remove(int index)
+//{
+//	EmptyListCheck(__FILE__, __FUNCTION__, __LINE__);
+//	IndexOutOfRangeCheck(__FILE__, __FUNCTION__, __LINE__, index);
+//
+//
+//	if (index == this->size - 1)
+//	{
+//		this->PopBack();
+//	}
+//	else if (index == 0)
+//	{
+//		this->PopFront();
+//	}
+//	else
+//	{
+//		pointer current = this->head;
+//		pointer prev = nullptr;
+//		for (int i = 0; i < index; i++)
+//		{
+//			prev = current;
+//			current = current->GetNext();
+//		}
+//		prev->SetNext(current->GetNext());
+//		this->size--;
+//	}
+//}
+//
+//template<RestrictedType T>
+//void List<T>::Remove(int from, int to)
+//{
+//	SliceCheck(__FILE__, __FUNCTION__, __LINE__, from, to);
+//
+//	if (from == 0)
+//	{
+//		for (int i = from; i < to; i++)
+//		{
+//			this->PopFront();
+//		}
+//	}
+//	else if (to == this->size)
+//	{
+//		for (int i = from; i < to; i++)
+//		{
+//			this->PopBack();
+//		}
+//	}
+//	else
+//	{
+//		pointer firstBorder = this->head;
+//
+//		for (int i = 0; i < from - 1; i++)
+//		{
+//			firstBorder = firstBorder->GetNext();
+//		}
+//
+//		pointer secondBorder = firstBorder->GetNext();
+//
+//		for (int i = from; i < to; i++)
+//		{
+//			secondBorder = secondBorder->GetNext();
+//		}
+//
+//		firstBorder->SetNext(secondBorder);
+//		this->size -= (from - to);
+//	}
+//}
 
 template<RestrictedType T>
 void List<T>::Remove(ListIterator<T>& begin, ListIterator<T>& end)
@@ -315,7 +315,7 @@ List<T> List<T>::Merge(I begin, I end) const
 
 template<RestrictedType T>
 template<ConvertableContainer<T> C>
-List<T>& List<T>::Merge(C& container)
+List<T>& List<T>::Merge(const C& container)
 {
 	for (auto& i : container)
 	{
@@ -327,7 +327,7 @@ List<T>& List<T>::Merge(C& container)
 
 template<RestrictedType T>
 template<ConvertableContainer<T> C>
-List<T> List<T>::Merge(C& container) const
+List<T> List<T>::Merge(const C& container) const
 {
 	List<T> result = List(*this);
 
@@ -637,7 +637,7 @@ void List<T>::Insert(I begin, I end, int index)
 
 template<RestrictedType T>
 template<ConvertableContainer<T> C>
-void List<T>::Insert(C& container, int index)
+void List<T>::Insert(const C& container, int index)
 {
 	IndexOutOfRangeCheck(__FILE__, __FUNCTION__ , __LINE__, index);
 

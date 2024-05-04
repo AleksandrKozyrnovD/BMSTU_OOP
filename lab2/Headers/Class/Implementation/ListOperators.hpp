@@ -57,7 +57,7 @@ List<T>& List<T>::operator+=(const List<U>& other)
 
 template<RestrictedType T>
 template<ConvertableContainer<T> C>
-List<T>& List<T>::operator+=(C container)
+List<T>& List<T>::operator+=(const C& container)
 {
 	return this->Merge(container);
 }
@@ -89,7 +89,7 @@ List<T>& List<T>::operator=(const List<U>& other)
 
 template<RestrictedType T>
 template<ConvertableContainer<T> C>
-List<T>& List<T>::operator=(C& container)
+List<T>& List<T>::operator=(const C& container)
 {
 	this->Clear();
 	for (auto i : container)

@@ -136,14 +136,14 @@ int main()
 	}
 
 	//Remove test
-	{
-		List<int> list = {1,2,3,4,5};
-		list.Remove(1);
-		std::cout << "Removed 1st index: " << list << std::endl;
-
-		list.Remove(1,4);
-		std::cout << "Removed 1-4 indexes further: " << list << std::endl;
-	}
+//	{
+//		List<int> list = {1,2,3,4,5};
+//		list.Remove(1);
+//		std::cout << "Removed 1st index: " << list << std::endl;
+//
+//		list.Remove(1,4);
+//		std::cout << "Removed 1-4 indexes further: " << list << std::endl;
+//	}
 	{
 		List<int> list = {1,2,3,4,5};
 		ListIterator<int> beg = list.begin();
