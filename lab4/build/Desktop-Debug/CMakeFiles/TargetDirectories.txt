@@ -1,0 +1,9 @@
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/lab4.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/edit_cache.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/rebuild_cache.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/list_install_components.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/install.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/install/local.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/install/strip.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/lab4_autogen_timestamp_deps.dir
+/home/aleksandr/Desktop/bmstu/oop/lab4/build/Desktop-Debug/CMakeFiles/lab4_autogen.dir
