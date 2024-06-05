@@ -1,6 +1,6 @@
 #include "carcasbuilder.h"
 #include "../object/carcas/carcas.h"
-
+#include "../object/carcas/matrixcarcas.h"
 
 CarcasBuilder::CarcasBuilder(std::shared_ptr<AbstractReader> reader)
 {
@@ -93,7 +93,7 @@ void CarcasBuilder::create_model()
 {
     if (!this->model)
     {
-        this->model = std::make_shared<Carcas>(this->points, this->links);
+        this->model = std::make_shared<MatrixCarcas>(this->points, this->links);
     }
 }
 

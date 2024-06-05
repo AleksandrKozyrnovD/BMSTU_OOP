@@ -62,7 +62,7 @@ public:
     Carcas(std::vector<Point> points, std::vector<Link> links) noexcept;
 
     std::vector<Point>& get_points() override;
-    std::vector<Link>& get_links() override;
+    std::vector<Link> get_links() override;
 
     bool add_point(const Point& point) override;
     bool add_link(const Link& link) override;

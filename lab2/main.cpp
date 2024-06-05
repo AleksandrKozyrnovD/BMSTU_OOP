@@ -329,6 +329,9 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+	{
+		static_assert(std::forward_iterator<ListIterator<int>>);
+	}
 
 //	List<List<int>> list;
 

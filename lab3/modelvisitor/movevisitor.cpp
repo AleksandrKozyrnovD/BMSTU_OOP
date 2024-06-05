@@ -26,9 +26,10 @@ void MoveVisitor::visit(Model& obj) //visit model
 
 void MoveVisitor::visit(Camera& obj)
 {
-    obj.x += this->x;
-    obj.y += this->y;
-    obj.z += this->z;
+    obj.center.move(this->x, this->y, this->z);
+    // obj.up.move(this->x, this->y, this->z);
+    // obj.right.move(this->x, this->y, this->z);
+    // obj.forward.move(this->x, this->y, this->z);
 }
 
 void MoveVisitor::visit(CompositeObject& obj)

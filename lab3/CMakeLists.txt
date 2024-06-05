@@ -66,6 +66,10 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         Exception.h
         visitor/abstractvisitor.h visitor/abstractvisitor.cpp
         draw/drawcomplex.h draw/drawcomplex.cpp
+        object/carcas/matrixcarcas.h object/carcas/matrixcarcas.cpp
+        builder/matrixbuilder.h builder/matrixbuilder.cpp
+        loader/binaryreader.h loader/binaryreader.cpp
+
 
     )
 # Define target properties for Android with Qt 6 as:

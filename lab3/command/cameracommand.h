@@ -7,52 +7,52 @@ class CameraCommand : public BaseCommand {};
 
 class CameraAddCommand : public CameraCommand
 {
-    using Action = void (SolutionScene::*)(std::shared_ptr<Camera>);
+    using Action = void (SolutionScene::*)(std::shared_ptr<AbstractObject>);
 public:
     CameraAddCommand() = default;
-    explicit CameraAddCommand(std::shared_ptr<Camera> camera);
+    explicit CameraAddCommand(std::shared_ptr<AbstractObject> camera);
     ~CameraAddCommand() = default;
 
     void execute() override;
 
 private:
     Action method;
-    std::shared_ptr<Camera> camera;
+    std::shared_ptr<AbstractObject> camera;
 };
 
 class CameraRemoveCommand : public CameraCommand
 {
-    using Action = void (SolutionScene::*)(int);
+    using Action = void (SolutionScene::*)(size_t);
 public:
     CameraRemoveCommand() = default;
-    explicit CameraRemoveCommand(int number);
+    explicit CameraRemoveCommand(size_t id);
     ~CameraRemoveCommand() = default;
 
     void execute() override;
 
 private:
     Action method;
-    int number;
+    size_t id;
 };
 
 class CameraSetCommand : public CameraCommand
 {
-    using Action = void (SolutionScene::*)(int);
+    using Action = void (SolutionScene::*)(size_t);
 public:
     CameraSetCommand() = default;
-    explicit CameraSetCommand(int id);
+    explicit CameraSetCommand(size_t id);
     ~CameraSetCommand() = default;
 
     void execute() override;
 
 private:
     Action method;
-    int id;
+    size_t id;
 };
 
 class CameraGetCommand : public CameraCommand
 {
-    using Action = std::shared_ptr<Camera>& (SolutionScene::*)();
+    using Action = std::shared_ptr<Camera> (SolutionScene::*)();
 public:
     CameraGetCommand() = delete;
     explicit CameraGetCommand(std::shared_ptr<Camera>& camera);

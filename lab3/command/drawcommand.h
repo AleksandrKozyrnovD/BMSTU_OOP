@@ -3,6 +3,7 @@
 
 #include "basecommand.h"
 #include <QGraphicsScene>
+#include <QGraphicsView>
 
 class DrawCommand : public BaseCommand {};
 
@@ -11,26 +12,28 @@ class ChangeDrawSimple : public DrawCommand
 {
 public:
     ChangeDrawSimple() = default;
-    ChangeDrawSimple(std::shared_ptr<QGraphicsScene> scene);
+    ChangeDrawSimple(std::shared_ptr<QGraphicsScene> scene, QGraphicsView* view);
     ~ChangeDrawSimple() = default;
 
     void execute() override;
 
 protected:
     std::shared_ptr<QGraphicsScene> scene;
+    QGraphicsView* view;
 };
 
 class ChangeDrawComplex : public DrawCommand
 {
 public:
     ChangeDrawComplex() = default;
-    ChangeDrawComplex(std::shared_ptr<QGraphicsScene> scene);
+    ChangeDrawComplex(std::shared_ptr<QGraphicsScene> scene, QGraphicsView* view);
     ~ChangeDrawComplex() = default;
 
     void execute() override;
 
 protected:
     std::shared_ptr<QGraphicsScene> scene;
+    QGraphicsView* view;
 };
 
 class Draw : public DrawCommand

@@ -173,7 +173,7 @@ std::vector<Point>& Carcas::get_points()
     return this->points;
 }
 
-std::vector<Link>& Carcas::get_links()
+std::vector<Link> Carcas::get_links()
 {
     return this->links;
 }

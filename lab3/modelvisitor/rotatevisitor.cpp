@@ -24,11 +24,13 @@ void RotateVisitor::visit(Model& obj)
     return;
 }
 
+// #include <cmath>
+
 void RotateVisitor::visit(Camera& obj)
 {
-    obj.ox += this->x;
-    obj.oy += this->y;
-    obj.oz += this->z;
+    obj.up.rotate(this->x, this->y, this->z);
+    obj.forward.rotate(this->x, this->y, this->z);
+    obj.right.rotate(this->x, this->y, this->z);
 }
 
 void RotateVisitor::visit(CompositeObject& obj)

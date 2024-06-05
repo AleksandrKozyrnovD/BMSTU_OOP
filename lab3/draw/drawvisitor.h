@@ -31,6 +31,8 @@ protected:
     std::shared_ptr<Camera> camera;
 
     Point get_proection(const Point& point);
+
+    void get_line_proection(Point& A, Point& B);
 };
 
 #endif // DRAWVISITOR_H

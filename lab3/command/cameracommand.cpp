@@ -1,6 +1,6 @@
 #include "cameracommand.h"
 
-CameraAddCommand::CameraAddCommand(std::shared_ptr<Camera> camera)
+CameraAddCommand::CameraAddCommand(std::shared_ptr<AbstractObject> camera)
     : camera(camera)
 {
     method = &SolutionScene::add_camera;
@@ -12,19 +12,19 @@ void CameraAddCommand::execute()
 }
 
 
-CameraRemoveCommand::CameraRemoveCommand(int number)
-    : number(number)
+CameraRemoveCommand::CameraRemoveCommand(size_t id)
+    : id(id)
 {
     method = &SolutionScene::remove_camera;
 }
 
 void CameraRemoveCommand::execute()
 {
-    ((*(this->proxy.scene)).*method)(this->number);
+    ((*(this->proxy.scene)).*method)(this->id);
 }
 
 
-CameraSetCommand::CameraSetCommand(int id)
+CameraSetCommand::CameraSetCommand(size_t id)
     : id(id)
 {
     method = &SolutionScene::set_camera;
@@ -38,7 +38,7 @@ void CameraSetCommand::execute()
 CameraGetCommand::CameraGetCommand(std::shared_ptr<Camera>& camera)
     : camera(camera)
 {
-    method = &SolutionScene::get_camera;
+    method = &SolutionScene::get_main_camera;
 }
 
 void CameraGetCommand::execute()

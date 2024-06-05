@@ -42,7 +42,8 @@ void MainWindow::setupScene()
     SolutionLoader loader = SolutionLoader();
 
     std::shared_ptr<Camera> camera = std::make_shared<Camera>(0,0,0);
-    auto visitor = DrawAll(std::make_shared<QTFactory>(this->_scene), camera);
+    auto view = ui->graphicsView;
+    auto visitor = DrawAll(std::make_shared<QTFactory>(this->_scene, view), camera);
     // std::shared_ptr<DrawAll> visitor = std::make_shared<DrawAll>(QTFactory(this->_scene), Camera(0,0,0));
     SolutionDraw drawer = SolutionDraw(std::make_shared<DrawAll>(visitor));
 
@@ -53,13 +54,14 @@ void MainWindow::updateScene()
 {
     this->_scene->clear();
 
-    std::shared_ptr<Camera> camera = nullptr;
+    // std::shared_ptr<Camera> camera = nullptr;
 
     // std::shared_ptr<AbstractObject> obj = std::make_shared<CompositeObject>();
     // ModelsGetCommand getcmd(obj);
     // this->facade->execute(getcmd);
 
     // auto cont = ui->graphicsView->contentsRect();
+    // std::cout <<
     // MakeMoveCommand move1(cont.width() / 2.0, cont.height() / 2.0, 0);
     // this->facade->execute(move1);
 
@@ -71,10 +73,9 @@ void MainWindow::updateScene()
     {
         this->facade->execute(cmd);
     }
-    // MakeMoveCommand move2(cont.width() / 2.0, cont.height() / 2.0, 0);
+    // MakeMoveCommand move2(-cont.width() / 2.0, -cont.height() / 2.0, 0);
     // this->facade->execute(move2);
 
-    // // ModelTransformCommand transform(obj);
     // this->facade->execute(transform);
 }
 
@@ -117,7 +118,11 @@ void MainWindow::on_addCameraBtn_clicked()
     CameraAddCommand cmd = CameraAddCommand(camera);
     this->facade->execute(cmd);
 
-    _cameras.push_back(ui->cameraCB->count());
+    // _cameras.push_back(ui->cameraCB->count());
+    this->_cameras.push_back(camera->get_id());
+
+    CameraSetCommand set(camera->get_id());
+    this->facade->execute(set);
 
     updateScene();
 
@@ -142,7 +147,7 @@ void MainWindow::on_loadModelBtn_clicked()
         return;
     }
 
-    auto path = QFileDialog::getOpenFileName(nullptr, "Загрузка модели", "../../test");
+    auto path = QFileDialog::getOpenFileName(nullptr, "Загрузка модели", "../../../test");
 
     if (path.isNull())
         return;
@@ -153,8 +158,27 @@ void MainWindow::on_loadModelBtn_clicked()
     try
     {
         std::shared_ptr<AbstractObject> obj;
-        ModelLoadCarcas load(obj, pathFileName);
-        this->facade->execute(load);
+        if (ui->secreal->isChecked())
+        {
+            ModelLoadMatrix load(obj, pathFileName, ui->binfile->isChecked());
+            this->facade->execute(load);
+        }
+        else if (ui->firstreal->isChecked())
+        {
+            ModelLoadCarcas load(obj, pathFileName, ui->binfile->isChecked());
+            this->facade->execute(load);
+        }
+        else if (ui->addcomposite->isChecked())
+        {
+            ModelLoadCarcas load(obj, pathFileName, ui->binfile->isChecked());
+            this->facade->execute(load);
+        }
+        else
+        {
+
+            ModelLoadCarcas load(obj, pathFileName, ui->binfile->isChecked());
+            this->facade->execute(load);
+        }
 
         ModelAddCarcas cmd(obj);
         this->facade->execute(cmd);
@@ -547,7 +571,7 @@ void MainWindow::on_moveAllBtn_clicked()
         return;
     }
 
-    std::shared_ptr<AbstractObject> obj = std::make_shared<Model>();
+    std::shared_ptr<AbstractObject> obj = std::make_shared<CompositeObject>();
     ModelsGetCommand cmdget(obj);
     this->facade->execute(cmdget);
 
@@ -612,7 +636,7 @@ void MainWindow::on_scaleAllBtn_clicked()
         return;
     }
 
-    std::shared_ptr<AbstractObject> obj = std::make_shared<Model>();
+    std::shared_ptr<AbstractObject> obj = std::make_shared<CompositeObject>();
     ModelsGetCommand cmdget(obj);
     this->facade->execute(cmdget);
 
@@ -705,7 +729,7 @@ void MainWindow::on_rotateAllBtn_clicked()
         return;
     }
 
-    std::shared_ptr<AbstractObject> obj = std::make_shared<Model>();
+    std::shared_ptr<AbstractObject> obj = std::make_shared<CompositeObject>();
     ModelsGetCommand cmdget(obj);
     this->facade->execute(cmdget);
 

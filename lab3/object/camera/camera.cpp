@@ -1,17 +1,11 @@
 #include "camera.h"
 
 Camera::Camera(double x, double y, double z)
-    : x(x), y(y), z(z)
+    : center(x, y, z)
 {
-    distance = 1;
-    ox = oy = oz = 0.0;
-}
-
-Camera::Camera(double x, double y, double z,
-       double ox, double oy, double oz)
-    : x(x), y(y), z(z), ox(ox), oy(oy), oz(oz)
-{
-    distance = 1;
+    this->up = Point(0, 1, 0);
+    this->forward = Point(0, 0, 1);
+    this->right = Point(1, 0, 0);
 }
 
 void Camera::accept(std::shared_ptr<AbstractVisitor> visitor)

@@ -19,7 +19,7 @@ public:
     virtual ~AbstractCarcas() = default;
 
     virtual PointVector& get_points() = 0;
-    virtual LinkVector& get_links() = 0;
+    virtual LinkVector get_links() = 0;
 
     virtual bool add_point(const Point& point) = 0;
     virtual bool add_link(const Link& link) = 0;

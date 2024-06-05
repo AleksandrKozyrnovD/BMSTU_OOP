@@ -1,0 +1,4 @@
+/var/lib/snapd/snap/clion/275/bin/cmake/linux/x64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/var/lib/snapd/snap/clion/275/bin/ninja/linux/x64/ninja -G Ninja -S /home/aleksandr/Desktop/bmstu/oop/lab3tree -B /home/aleksandr/Desktop/bmstu/oop/lab3tree/cmake-build-debug
+-- Configuring done (0.0s)
+-- Generating done (0.0s)
+-- Build files have been written to: /home/aleksandr/Desktop/bmstu/oop/lab3tree/cmake-build-debug

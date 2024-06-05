@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1242</width>
-    <height>1085</height>
+    <height>1186</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -665,7 +665,7 @@
          <string>Модель</string>
         </property>
         <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0" colspan="2">
+         <item row="3" column="0" colspan="2">
           <widget class="QComboBox" name="modelsCB">
            <property name="minimumSize">
             <size>
@@ -686,26 +686,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="2">
-          <widget class="QPushButton" name="loadModelBtn">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="text">
-            <string>Загрузить</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
+         <item row="5" column="0">
           <widget class="QPushButton" name="deleteModelBtn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -724,7 +705,36 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="1">
+         <item row="4" column="0" colspan="2">
+          <widget class="QPushButton" name="loadModelBtn">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Загрузить</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="QRadioButton" name="addcomposite">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>Добавить композит из файла</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
           <widget class="QPushButton" name="deleteModelsBtn">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -740,6 +750,30 @@
            </property>
            <property name="text">
             <string>Удалить все</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QRadioButton" name="firstreal">
+           <property name="text">
+            <string>1 реал.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QRadioButton" name="secreal">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="text">
+            <string>2 реал.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" colspan="2">
+          <widget class="QCheckBox" name="binfile">
+           <property name="text">
+            <string>бин файл</string>
            </property>
           </widget>
          </item>

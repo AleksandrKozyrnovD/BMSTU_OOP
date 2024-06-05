@@ -9,14 +9,42 @@
 // ModelCommand::ModelCommand() {}
 
 
-ModelLoadCarcas::ModelLoadCarcas(std::shared_ptr<AbstractObject>& obj, const std::string& filename)
-    : obj(obj), filename(filename)
+ModelLoadCarcas::ModelLoadCarcas(std::shared_ptr<AbstractObject>& obj, const std::string& filename, bool isbin)
+    : obj(obj), filename(filename), isbin(isbin)
 {
-    method = &SolutionLoader::load_from_simple_file;
+    // method = &SolutionLoader::load_from_simple_file;
+    if (!isbin)
+    {
+        method = &SolutionLoader::load_from_file<CarcasBuilder>;
+    }
+    else
+    {
+        method = &SolutionLoader::load_from_binary<CarcasBuilder>;
+    }
 }
 
 
 void ModelLoadCarcas::execute()
+{
+    this->obj = ((*(this->proxy.loader)).*method)(this->filename);
+}
+
+ModelLoadMatrix::ModelLoadMatrix(std::shared_ptr<AbstractObject>& obj, const std::string& filename, bool isbin)
+    : obj(obj), filename(filename), isbin(isbin)
+{
+    // method = &SolutionLoader::load_from_simple_file;
+    if (!isbin)
+    {
+        method = &SolutionLoader::load_from_file<MatrixBuilder>;
+    }
+    else
+    {
+        method = &SolutionLoader::load_from_binary<MatrixBuilder>;
+    }
+}
+
+
+void ModelLoadMatrix::execute()
 {
     this->obj = ((*(this->proxy.loader)).*method)(this->filename);
 }
@@ -33,18 +61,18 @@ void ModelAddCarcas::execute()
     ((*(this->proxy.scene)).*method)(this->obj);
 }
 
-ModelRemoveCommand::ModelRemoveCommand(const int& number)
-    : what_number_do_you_want_to_delete(number)
+ModelRemoveCommand::ModelRemoveCommand(size_t id)
+    : id(id)
 {
     method = &SolutionScene::remove_object;
 }
 
 void ModelRemoveCommand::execute()
 {
-    ((*(this->proxy.scene)).*method)(this->what_number_do_you_want_to_delete);
+    ((*(this->proxy.scene)).*method)(this->id);
 }
 
-ModelGetCommand::ModelGetCommand(std::shared_ptr<AbstractObject>& object, int id)
+ModelGetCommand::ModelGetCommand(std::shared_ptr<AbstractObject>& object, size_t id)
     : object(object), id(id)
 {
     method = &SolutionScene::get_object;
@@ -53,16 +81,23 @@ ModelGetCommand::ModelGetCommand(std::shared_ptr<AbstractObject>& object, int id
 void ModelGetCommand::execute()
 {
     this->object = ((*(this->proxy.scene)).*method)(this->id);
-    // this->object = this->proxy.scene->get_scene()->get_models().at(index);
 }
 
 ModelsGetCommand::ModelsGetCommand(std::shared_ptr<AbstractObject>& object)
     : object(object)
-{}
+{
+    this->method = &SolutionScene::get_objects;
+}
 
 void ModelsGetCommand::execute()
 {
-    this->object = std::make_shared<CompositeObject>(this->proxy.scene->get_scene()->get_models());
+    // this->object = std::make_shared<CompositeObject>(this->proxy.scene->get_scene()->get_models());
+    auto objects = ((*(this->proxy.scene)).*method)();
+    this->object = std::make_shared<CompositeObject>();
+    for (auto& obj : objects)
+    {
+        this->object->add(obj);
+    }
 }
 
 ModelTransformCommand::ModelTransformCommand(std::shared_ptr<AbstractObject> obj)

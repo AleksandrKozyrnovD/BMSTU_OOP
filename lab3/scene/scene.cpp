@@ -2,79 +2,117 @@
 
 Scene::Scene() {}
 
-bool Scene::add_model(const std::shared_ptr<AbstractObject>& object)
-{
-    this->objects.push_back(object);
 
-    return true;
+void Scene::add_object(const std::shared_ptr<AbstractObject> obj)
+{
+    this->objects.push_back(obj);
+}
+void Scene::remove_object(const const_iterator& it)
+{
+    this->objects.erase(it);
 }
 
-bool Scene::remove_model(int index)
+void Scene::add_camera(const std::shared_ptr<AbstractObject> obj)
 {
-    if (index < 0)
-    {
-        return false;
+    this->objects.push_back(obj);
+    auto it = this->objects.begin();
+    auto itnext = ++this->objects.begin();
+
+    for (; itnext != this->objects.end(); ++it, ++itnext);
+
+    this->cameras.push_back(it);
+}
+
+void Scene::remove_camera(const std::list<iterator>::const_iterator &it)
+{
+    this->objects.erase(*it);
+    this->cameras.erase(it);
+}
+
+std::shared_ptr<AbstractObject> Scene::get_camera(const iteratorCamera &it)
+{
+    return **it;
+}
+
+Scene::iterator Scene::begin()
+{
+    return this->objects.begin();
+}
+
+Scene::iterator Scene::end()
+{
+    return this->objects.end();
+}
+
+Scene::const_iterator Scene::begin() const
+{
+    return this->objects.begin();
+}
+
+Scene::const_iterator Scene::end() const
+{
+    return this->objects.end();
+}
+
+Scene::const_iterator Scene::cbegin() const
+{
+    return this->objects.cbegin();
+}
+
+Scene::const_iterator Scene::cend() const
+{
+    return this->objects.cend();
+}
+
+Scene::reverse_iterator Scene::rbegin()
+{
+    return this->objects.rbegin();
+}
+
+Scene::reverse_iterator Scene::rend()
+{
+    return this->objects.rend();
+}
+
+Scene::const_reverse_iterator Scene::rbegin() const
+{
+    return this->objects.rbegin();
+}
+
+Scene::const_reverse_iterator Scene::rend() const
+{
+    return this->objects.rend();
+}
+
+Scene::const_reverse_iterator Scene::crbegin() const
+{
+    return this->objects.crbegin();
+}
+
+Scene::const_reverse_iterator Scene::crend() const
+{
+    return this->objects.crend();
+}
+
+Scene::size_type Scene::size() const
+{
+    return this->objects.size();
+}
+
+Scene::iteratorCamera Scene::beginCamera() {
+    return this->cameras.cbegin();
+}
+
+Scene::iteratorCamera Scene::endCamera() {
+    return this->cameras.cend();
+}
+
+
+void Scene::add_composite(const std::vector<std::shared_ptr<AbstractObject>> objects)
+{
+    std::shared_ptr<CompositeObject> composite = std::make_shared<CompositeObject>();
+    for (const auto &obj : objects) {
+        composite->add(obj);
     }
-
-    auto iter = this->objects.begin();
-    std::advance(iter, index);
-    this->objects.erase(iter);
-
-    return true;
-}
-
-
-bool Scene::add_camera(const std::shared_ptr<Camera>& camera)
-{
-    this->add_model(camera);
-
-    this->cameras.push_back(camera);
-    // auto prev = this->objects.begin();
-    // auto iter = prev;
-    // for (; iter != this->objects.end(); ++iter)
-    // {
-    //     prev = iter;
-    // }
-    // this->cameras.push_back(prev);
-
-    return true;
-}
-
-
-bool Scene::remove_camera(int index)
-{
-    auto iter = this->cameras.begin();
-
-    std::advance(iter, index);
-
-    this->cameras.erase(iter);
-
-    // this->remove_model(index);
-
-    return true;
-}
-
-std::vector<std::shared_ptr<AbstractObject>>& Scene::get_models()
-{
-    return this->objects;
-}
-
-// std::list<std::vector<std::shared_ptr<AbstractObject>>::iterator>& Scene::get_cameras()
-std::vector<std::shared_ptr<Camera>>& Scene::get_cameras()
-{
-    return this->cameras;
-}
-
-std::shared_ptr<AbstractObject> Scene::get_object(int id)
-{
-    std::shared_ptr<AbstractObject> obj;
-    for (auto& elem : this->objects)
-    {
-        if (elem->get_id() == id)
-        {
-            obj = elem;
-        }
-    }
-
-    return obj;
+    this->add_object(composite);
 }
