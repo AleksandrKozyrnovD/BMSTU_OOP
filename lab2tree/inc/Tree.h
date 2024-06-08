@@ -20,6 +20,7 @@ using namespace std;
 template <Comparable Type>
 class Tree : public BaseContainer
 {
+public:
 	friend class Iterator<Type>;
 	friend class ConstIterator<Type>;
 
@@ -41,7 +42,8 @@ public:
 	explicit Tree(const Tree<OtherType> &tree);
 
 	template<std::ranges::input_range Range>
-	explicit Tree(Range&& range);
+	requires requires(typename Range::value_type t)  {{ t }  -> convertible_to<Type>; }
+	explicit Tree(const Range& range);
 
 	Tree(const size_t sizeValue, const value_type *arr);
 	template <Convertable_To<Type> OtherType>
@@ -70,21 +72,12 @@ public:
 	const_iterator Find(const value_type &data) const;
 	void Intersection(const Tree<Type> &tree);
 
-//	template<std::ranges::input_range Range>
-//	void Intersection(Range&& range);
-
 	template<std::ranges::input_range Range>
-	requires requires(typename Range::value_type t)  {{ t }  -> convertible_to<Type>;  }
-	void Intersection(Range&& range);
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	void Intersection(const Range& range);
 
 	Tree<Type> operator&(const Tree<Type> &tree) const;
 	Tree<Type> &operator&=(const Tree<Type> &tree);
-	template<std::ranges::input_range Range>
-	requires requires(typename Range::value_type t)   {{ t }   -> convertible_to<Type>;   }
-	Tree<Type>  operator&(const Range &range) const;
-	template<std::ranges::input_range Range>
-	requires requires(typename Range::value_type t)   {{ t }   -> convertible_to<Type>;   }
-	Tree<Type>  operator&=(const Range &range);
 
 	template <Convertable_To<Type> OtherType>
 	bool Insert(const OtherType &data);
@@ -140,6 +133,15 @@ public:
 	#pragma endregion Indexations
 
 	#pragma region Add
+
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	Tree<value_type> Add(const Range& range) const;
+
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	Tree<common_type_t<Type, std::ranges::range_value_t<Range>, Type>> CopyAdd(const Range& range) const;
+
 	Tree<value_type> Add(const Tree<value_type> &tree) const;
 	Tree<value_type> operator+(const Tree<value_type> &tree) const;
 
@@ -221,7 +223,6 @@ public:
 	Tree<Type> &EqAdd(const Cont &container);
 
 	Tree<Type> &operator+=(const initializer_list<value_type> elements);
-//	Tree<Type> &operator+=(Tree<value_type> &&tree);
 
 	template <ContainerComparable Cont>
 	requires requires(typename Cont::value_type t) {{ t } -> convertible_to<Type>; }
@@ -262,6 +263,10 @@ public:
 	#pragma endregion Add
 
 	#pragma region Remove
+	template <std::ranges::input_range Range>
+	requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+	Tree<Type> Remove(const Range& range) const;
+
 	Tree<Type> Remove(const Tree<Type> &tree) const;
 	Tree<Type> operator-(const Tree<Type> &tree) const;
 

@@ -1,3 +1,0 @@
-/home/aleksandr/Desktop/bmstu/oop/lab3tree/cmake-build-debug/CMakeFiles/lab3tree.dir
-/home/aleksandr/Desktop/bmstu/oop/lab3tree/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/aleksandr/Desktop/bmstu/oop/lab3tree/cmake-build-debug/CMakeFiles/rebuild_cache.dir

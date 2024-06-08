@@ -23,10 +23,10 @@ ConstIterator<Type>::ConstIterator(shared_ptr<node> root, shared_ptr<node> ptr, 
 	size = size_;
 }
 
-template <Comparable Type>
-ConstIterator<Type>::ConstIterator(const Iterator<Type>& other) noexcept
-: ptr_{other.ptr_}, root_{other.root_}, index_{other.index_}, sub_stack_(other.sub_stack_), stack_(other.stack_)
-{}
+//template <Comparable Type>
+//ConstIterator<Type>::ConstIterator(const Iterator<Type>& other) noexcept
+//: ptr_{other.ptr_}, root_{other.root_}, index_{other.index_}, sub_stack_(other.sub_stack_), stack_(other.stack_)
+//{}
 
 template <Comparable Type>
 ConstIterator<Type>::ConstIterator(const ConstIterator<value_type> &iterator) noexcept: BaseIterator(iterator),
@@ -171,6 +171,14 @@ ConstIterator<Type> &ConstIterator<Type>::operator--()
 
 template <Comparable Type>
 ConstIterator<Type> ConstIterator<Type>::operator--() const
+{
+	ConstIterator<value_type> tmp(*this);
+	--tmp;
+	return tmp;
+}
+
+template <Comparable Type>
+ConstIterator<Type> ConstIterator<Type>::operator--(int) const
 {
 	ConstIterator<value_type> tmp(*this);
 	--tmp;

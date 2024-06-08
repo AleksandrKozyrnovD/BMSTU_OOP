@@ -4,6 +4,10 @@
 #include <memory>
 #include <cmath>
 #include <ranges>
+#include <utility>
+#include <optional>
+#include <cstddef>
+#include <algorithm>
 
 #include "../inc/Tree.h"
 
@@ -59,6 +63,7 @@ Tree<Type>::Tree(const initializer_list<Type> elements): BaseContainer()
 {
 	allocateRoot();
 
+//	elements | std::ranges::for_each(elements,  [this](const Type& elem){ Insert(elem);});
 	for (auto elem : elements)
 		Insert(elem);
 }
@@ -75,15 +80,9 @@ Tree<Type>::Tree(const initializer_list<OtherType> elements): BaseContainer()
 
 template <Comparable Type>
 template<std::ranges::input_range Range>
-Tree<Type>::Tree(Range&& range)
-{
-	allocateRoot();
-
-	for (auto& elem  : range)
-	{
-		Insert(elem);
-	}
-}
+requires requires(typename Range::value_type t)  {{ t }  -> convertible_to<Type>; }
+Tree<Type>::Tree(const Range& range) : Tree(std::ranges::begin(range), std::ranges::end(range))
+{}
 
 template <Comparable Type>
 Tree<Type>::Tree(Tree<value_type> &&tree) noexcept: BaseContainer()
@@ -93,14 +92,6 @@ Tree<Type>::Tree(Tree<value_type> &&tree) noexcept: BaseContainer()
 }
 
 
-//template <Comparable Type>
-//Tree<Type>::Tree(iterator begin, iterator end): BaseContainer()
-//{
-//	allocateRoot();
-//
-//	for (auto iter = begin; iter != end; ++iter)
-//		Insert(*iter);
-//}
 
 template <Comparable Type>
 template <InputIterator I>
@@ -109,8 +100,7 @@ Tree<Type>::Tree(I begin, I end): BaseContainer()
 {
 	allocateRoot();
 
-	for (auto iter = begin; iter != end; ++iter)
-		Insert(*iter);
+	std::ranges::for_each(begin, end, [this](const Type& elem){ Insert(elem);});
 }
 
 template <Comparable Type>
@@ -281,31 +271,23 @@ void Tree<Type>::Intersection(const Tree<Type> &tree)
 	}
 }
 
-
 template <Comparable Type>
 template<std::ranges::input_range Range>
-void Tree<Type>::Intersection(Range&& range)
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+void Tree<Type>::Intersection(const Range& range)
 {
-
-	for (auto& elem : range)
+	auto removefunc = [this](const Type& data)
 	{
-		if (Find(elem) == end())
-			Delete(elem);
-	}
-}
+		Delete(data);
+	};
 
-//template <Comparable Type>
-//template<std::ranges::input_range Range>
-//requires requires(typename Range::value_type t)  {{ t }  -> convertible_to<Type>; }
-//void Tree<Type>::Intersection(Range&& range)
-//{
-//
-//	for (auto& elem : range)
-//	{
-//		if (Find(elem) == end())
-//			Delete(elem);
-//	}
-//}
+	auto filterfunc = [this](const Type& data)
+	{
+		return Find(data) == end();
+	};
+
+	std::ranges::for_each(range | std::ranges::views::filter(filterfunc), removefunc);
+}
 
 template <Comparable Type>
 Tree<Type> Tree<Type>::operator&(const Tree<Type> &tree) const
@@ -815,12 +797,6 @@ Tree<Type> &Tree<Type>::operator+=(const initializer_list<value_type> elements)
 {
 	return EqAdd(elements);
 }
-//
-//template <Comparable Type>
-//Tree<Type> &Tree<Type>::operator+=(Tree<value_type> &&tree)
-//{
-//	return EqAdd(tree);
-//}
 
 template <Comparable Type>
 template <ContainerComparable Cont>
@@ -828,6 +804,30 @@ requires requires(typename Cont::value_type t) {{ t } -> convertible_to<Type>; }
 Tree<Type> &Tree<Type>::operator+=(const Cont &container)
 {
 	return EqAdd(container);
+}
+
+template <Comparable Type>
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+Tree<Type> Tree<Type>::Add(const Range& range) const
+{
+	Tree<value_type> res(*this);
+
+	std::ranges::for_each(range, [&res](const auto&elem){ res.Insert(elem);});
+
+	return res;
+}
+
+template <Comparable Type>
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+Tree<common_type_t<Type, std::ranges::range_value_t<Range>, Type>> Tree<Type>::CopyAdd(const Range& range) const
+{
+	Tree<common_type_t<Type, std::ranges::range_value_t<Range>, Type>> res(*this);
+
+	std::ranges::for_each(range, [&res](const auto&elem){ res.Insert(elem);});
+
+	return res;
 }
 
 template <Comparable Type>
@@ -1060,6 +1060,18 @@ Tree<Type> Tree<Type>::Remove(const Tree<value_type> &tree) const
 }
 
 template <Comparable Type>
+template <std::ranges::input_range Range>
+requires std::convertible_to<std::ranges::range_value_t<Range>, Type>
+Tree<Type> Tree<Type>::Remove(const Range& range) const
+{
+	Tree<value_type> res(*this);
+
+	std::ranges::for_each(range, [&res](const auto&elem) { res.Delete(elem); });
+
+	return res;
+}
+
+template <Comparable Type>
 Tree<Type> Tree<Type>::operator-(const Tree<value_type> &tree) const
 {
 	return Remove(tree);
@@ -1131,28 +1143,6 @@ Tree<Type> Tree<Type>::Remove(const initializer_list<value_type> elements) const
 
 	return res;
 }
-
-//template <Comparable Type>
-//Tree<Type> Tree<Type>::Remove(Tree<value_type> &&tree) const
-//{
-//	Tree<value_type> res(*this);
-//
-//	for (auto elem : tree)
-//		res.Delete(elem);
-//
-//	return res;
-//}
-
-//template <Comparable Type>
-//Tree<Type> Tree<Type>::Remove(iterator begin, iterator end) const
-//{
-//	Tree<value_type> res(*this);
-//
-//	for (auto iter = begin; iter != end; ++iter)
-//		res.Delete(*iter);
-//
-//	return res;
-//}
 
 template <Comparable Type>
 template <InputIterator I>

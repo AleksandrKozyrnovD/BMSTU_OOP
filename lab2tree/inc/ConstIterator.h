@@ -19,7 +19,7 @@ class Tree;
 
 template <Comparable Type>
 class ConstIterator : public BaseIterator {
-
+public:
 	friend class Tree<Type>;
 	friend class Iterator<Type>;
 	using node = Tree<Type>::TreeNode;
@@ -29,17 +29,16 @@ public:
 
 	using iterator_category = bidirectional_iterator_tag;
 	using value_type = Type;
-	using difference_type = ptrdiff_t;
+	using difference_type = std::ptrdiff_t;
 	using pointer = value_type *;
 	using reference = const value_type &;
 
-	ConstIterator() noexcept = default;
+//	ConstIterator() noexcept = default;
 	ConstIterator(ConstIterator<Type> &&other) noexcept = default;
 	ConstIterator(shared_ptr<node> root = nullptr, shared_ptr<node> ptr = nullptr, size_t idx = 0, size_t size_ = 0);
-	ConstIterator(const Iterator<Type>  &iterator) noexcept;
 
 	explicit ConstIterator(const tree &other) noexcept;
-	ConstIterator(const ConstIterator<Type> &iterator) noexcept;
+	ConstIterator(const ConstIterator<Type>& iterator) noexcept;
 
 	~ConstIterator() override;
 
@@ -47,10 +46,8 @@ public:
 	ConstIterator<Type> &operator=(const ConstIterator<Type> &iterator) noexcept;
 	ConstIterator<Type> &operator=(ConstIterator<Type> &&iterator) noexcept = default;
 
-	reference operator*() { return ptr().lock()->getData(); };
+	reference operator*() const { return ptr().lock()->getData(); };
 	const pointer operator->() { return &ptr().lock()->getData(); } ;
-
-
 
 
 	ConstIterator<Type> &operator++();
@@ -59,6 +56,7 @@ public:
 
 	ConstIterator<Type> &operator--();
 	ConstIterator<Type> operator--() const ;
+	ConstIterator<Type> operator--(int) const ;
 
 	const Type &operator[](const size_t offset);
 	const Type &operator[](const size_t offset) const;

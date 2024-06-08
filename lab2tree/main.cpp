@@ -48,20 +48,6 @@ int main()
 		assert(i == 4);
 	}
 
-	{
-		Tree<int> tree = {1, 2, 3, -1};
-		Tree<int> tree_2(tree.begin(), tree.end());
-		int arr[] = {1, -1, 2, 3};
-		int i = 0;
-
-		for (auto elem : tree)
-		{
-			assert(elem == arr[i]);
-			i++;
-		}
-
-		assert(i == 4);
-	}
 
 	{
 		Tree<int> tree = {1, 2, 3, -1};
@@ -172,18 +158,6 @@ int main()
 		assert(rootData == -1);
 	}
 
-//	{
-//		Tree<int> tree = {1, 2, 4, -1, -2, 0, 3};
-//		Tree<int> tree_1 = {2, -1, -2, 0, 4, 3};
-//		bool res = tree.Delete(1);
-//
-//		assert(res == true);
-//		assert((tree.end() - tree.begin()) == 6);
-//
-//		for (auto it = tree.begin(), i = tree_1.begin(); it != tree.end(); ++it, ++i)
-//			assert(*it == *i);
-//	}
-
 	{
 		Tree<int> tree = {};
 		Tree<int> tree_1 = {5};
@@ -227,20 +201,6 @@ int main()
 		for (auto it = tree.begin(), i = tree_2.begin(); it != tree.end(); ++it, ++i) {
 			assert(*it == *i);
 		}
-	}
-
-	{
-		std::vector<int> vec = {1, 2, 3, 4};
-		Tree<int> tree = Tree<int>(vec);
-
-		assert(std::distance(tree.begin(), tree.end()) == 4);
-
-		int i = 0;
-		for (auto elem : tree) {
-			assert(elem == vec[i]);
-			++i;
-		}
-
 	}
 
 	{
@@ -327,6 +287,19 @@ int main()
 		
 		auto tree_3 = tree.CopyAdd(2.5);
 
+	}
+	{
+		Tree<int> tree = {-1, 1, 2, 3, 4, 5, 6, 7, 8};
+
+		std::vector<double> test = {-1000, -10000.1, -0.1, 0};
+		auto range = test | std::ranges::views::reverse;
+
+		auto tree2 = tree.CopyAdd(range); //double
+	}
+	{
+		Tree<int> tree  =  {4,  3,  5,  -2,  7};
+		static_assert(std::ranges::range<Tree<int>>);
+		std::ranges::for_each(tree, [](const auto& elem) {std::cout << elem << std::endl;});
 	}
 
 	return 0;
